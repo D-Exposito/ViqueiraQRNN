@@ -4,6 +4,7 @@
 
 Created 10/07/2025
 @author: dexposito (algorithm idea: jdviqueira)
+Copyright (C) 2025  Daniel Expósito, José Daniel Viqueira
 """
 
 import os, sys

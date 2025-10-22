@@ -1,4 +1,6 @@
-"""Module implementation of a Quantum Recurrent Neural Network model, by default the one from https://arxiv.org/abs/2310.20671"""
+"""Module implementation of a Quantum Recurrent Neural Network model, by default the one from https://arxiv.org/abs/2310.20671
+Copyright (C) 2025  Daniel Expósito, José Daniel Viqueira
+"""
 import sys, os
 sys.path.append("/mnt/netapp1/Store_CESGA/home/cesga/dexposito/repos/CUNQA/examples/CESGA_use_cases/")
 
