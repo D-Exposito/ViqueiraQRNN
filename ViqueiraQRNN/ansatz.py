@@ -15,7 +15,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import  Union, Any, Optional
 
-# path to access c++ files
+# path to access CUNQA
 sys.path.append(os.getenv("HOME"))
 
 from cunqa.circuit import CunqaCircuit

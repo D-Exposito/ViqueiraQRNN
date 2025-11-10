@@ -2,13 +2,13 @@
 Copyright (C) 2025  Daniel Expósito, José Daniel Viqueira
 """
 import sys, os
-sys.path.append("/mnt/netapp1/Store_CESGA/home/cesga/dexposito/repos/CUNQA/examples/CESGA_use_cases/")
+sys.path.append(os.path.abspath(".."))
 
 from ViqueiraQRNN.circuit import CircuitQRNN
 from ViqueiraQRNN.gradients_and_costs import GradientMethod, CostFunction
 from ViqueiraQRNN.model import ViqueiraQRNN
 from ViqueiraQRNN.ansatz import AnsatzQRNN, EMCZ2, EMCZ3
 
-
+# Path to access CUNQA
 sys.path.append(os.getenv("HOME"))
 import cunqa
