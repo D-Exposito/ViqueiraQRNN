@@ -1,0 +1,45 @@
+ViqueiraQRNN.model.ViqueiraQRNN
+===============================
+
+.. currentmodule:: ViqueiraQRNN.model
+
+.. autoclass:: ViqueiraQRNN
+   :show-inheritance:
+
+
+
+
+
+Methods
+~~~~~~~
+
+.. automethod:: ViqueiraQRNN.__init__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. automethod:: ViqueiraQRNN.fit
+
+.. automethod:: ViqueiraQRNN.predict
+
+.. automethod:: ViqueiraQRNN.validate
+

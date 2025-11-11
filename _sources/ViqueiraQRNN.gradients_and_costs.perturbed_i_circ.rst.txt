@@ -1,0 +1,6 @@
+ViqueiraQRNN.gradients\_and\_costs.perturbed\_i\_circ
+=====================================================
+
+.. currentmodule:: ViqueiraQRNN.gradients_and_costs
+
+.. autofunction:: perturbed_i_circ

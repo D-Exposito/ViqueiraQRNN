@@ -1,0 +1,6 @@
+ViqueiraQRNN.circuit.CircuitQRNNError
+=====================================
+
+.. currentmodule:: ViqueiraQRNN.circuit
+
+.. autoexception:: CircuitQRNNError

@@ -1,0 +1,6 @@
+ViqueiraQRNN.gradients\_and\_costs.calc\_observable
+===================================================
+
+.. currentmodule:: ViqueiraQRNN.gradients_and_costs
+
+.. autofunction:: calc_observable

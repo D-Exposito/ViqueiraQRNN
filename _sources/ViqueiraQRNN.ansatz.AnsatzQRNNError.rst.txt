@@ -1,0 +1,6 @@
+ViqueiraQRNN.ansatz.AnsatzQRNNError
+===================================
+
+.. currentmodule:: ViqueiraQRNN.ansatz
+
+.. autoexception:: AnsatzQRNNError

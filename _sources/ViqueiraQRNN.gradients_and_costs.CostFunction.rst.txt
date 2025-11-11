@@ -1,0 +1,45 @@
+ViqueiraQRNN.gradients\_and\_costs.CostFunction
+===============================================
+
+.. currentmodule:: ViqueiraQRNN.gradients_and_costs
+
+.. autoclass:: CostFunction
+   :show-inheritance:
+
+
+
+
+
+Methods
+~~~~~~~
+
+.. automethod:: CostFunction.__init__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. automethod:: CostFunction.rmse
+
+.. automethod:: CostFunction.rmse_deriv
+
+.. automethod:: CostFunction.update_cost_function
+
