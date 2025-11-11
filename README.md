@@ -12,4 +12,4 @@
   A python module for simulating Quantum RNNs using CUNQA. 
 </p>
 
-Check José Daniel Viqueira et al [article](https://arxiv.org/abs/2310.20671) for an explanation of QRNN. Check the [documentation](https://d-exposito.github.io/ViqueiraQRNN/) for an explanation of the module's inner workings.
+Check José Daniel Viqueira et al [article](https://arxiv.org/abs/2310.20671) for an explanation of QRNNs. Check the [documentation](https://d-exposito.github.io/ViqueiraQRNN/) for an explanation of the module's inner workings.
