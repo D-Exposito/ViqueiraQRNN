@@ -1,0 +1,6 @@
+ViqueiraQRNN.gradients\_and\_costs.CostFunctionError
+====================================================
+
+.. currentmodule:: ViqueiraQRNN.gradients_and_costs
+
+.. autoexception:: CostFunctionError

@@ -1,0 +1,45 @@
+﻿ViqueiraQRNN.circuit
+====================
+
+.. automodule:: ViqueiraQRNN.circuit
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. raw:: html
+
+      <h2> Classes </h2>
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+      :recursive:
+   
+      CircuitQRNN
+   
+   
+
+   
+   
+   .. raw:: html
+
+      <h2> Exceptions </h2>
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      CircuitQRNNError
+   
+   
+
+
+

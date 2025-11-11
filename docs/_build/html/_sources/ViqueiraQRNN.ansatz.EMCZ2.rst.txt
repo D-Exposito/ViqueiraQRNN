@@ -1,0 +1,6 @@
+ViqueiraQRNN.ansatz.EMCZ2
+=========================
+
+.. currentmodule:: ViqueiraQRNN.ansatz
+
+.. autofunction:: EMCZ2

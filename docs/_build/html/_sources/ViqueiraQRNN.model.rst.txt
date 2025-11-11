@@ -1,0 +1,35 @@
+﻿ViqueiraQRNN.model
+==================
+
+.. automodule:: ViqueiraQRNN.model
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. raw:: html
+
+      <h2> Classes </h2>
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+      :recursive:
+   
+      ViqueiraQRNN
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,39 @@
+ViqueiraQRNN.circuit.CircuitQRNN
+================================
+
+.. currentmodule:: ViqueiraQRNN.circuit
+
+.. autoclass:: CircuitQRNN
+   :show-inheritance:
+
+
+
+
+
+Methods
+~~~~~~~
+
+.. automethod:: CircuitQRNN.__init__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. automethod:: CircuitQRNN.assign_emcz_parameters
+
+.. automethod:: CircuitQRNN.run_on_QPU
+

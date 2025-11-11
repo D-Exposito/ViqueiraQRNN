@@ -1,0 +1,58 @@
+﻿ViqueiraQRNN.ansatz
+===================
+
+.. automodule:: ViqueiraQRNN.ansatz
+
+   
+   
+   
+
+   
+   
+   .. raw:: html
+
+      <h2> Functions </h2>
+
+   .. autosummary::
+      :toctree:
+      :nosignatures:
+      :recursive:
+   
+      EMCZ2
+      EMCZ3
+      order_parameters
+   
+   
+
+   
+   
+   .. raw:: html
+
+      <h2> Classes </h2>
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+      :nosignatures:
+      :recursive:
+   
+      AnsatzQRNN
+   
+   
+
+   
+   
+   .. raw:: html
+
+      <h2> Exceptions </h2>
+
+   .. autosummary::
+      :toctree:
+      :recursive:
+   
+      AnsatzQRNNError
+   
+   
+
+
+

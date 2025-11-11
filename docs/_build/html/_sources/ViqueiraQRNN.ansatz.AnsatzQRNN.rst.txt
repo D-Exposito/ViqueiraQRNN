@@ -1,0 +1,50 @@
+ViqueiraQRNN.ansatz.AnsatzQRNN
+==============================
+
+.. currentmodule:: ViqueiraQRNN.ansatz
+
+.. autoclass:: AnsatzQRNN
+   :show-inheritance:
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autosummary::
+   :nosignatures:
+
+   ~AnsatzQRNN.encoder
+   ~AnsatzQRNN.evolver
+   ~AnsatzQRNN.final_encoding
+   ~AnsatzQRNN.final_evolution
+
+
+
+Methods
+~~~~~~~
+
+.. automethod:: AnsatzQRNN.__init__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.. automethod:: AnsatzQRNN.get_full_circuit
+
+.. automethod:: AnsatzQRNN.total_order_params
+

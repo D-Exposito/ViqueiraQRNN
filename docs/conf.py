@@ -25,11 +25,28 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
     'nbsphinx',
-    'sphinx_mdinclude',
+    #'sphinx_mdinclude',
     'sphinx.ext.githubpages',
     'sphinx.ext.napoleon',
-    "autodocsumm",
-    "sphinx_toolbox.more_autosummary"
+    #"autodocsumm",
+    #"sphinx_toolbox.more_autosummary"
+]
+
+autosummary_generate = True
+autosummary_generate_overwrite = True
+
+autodoc_mock_imports = [
+    "os",
+    "sys",
+    "math",
+    "numpy",
+    "matplotlib",
+    "typing",
+    "cunqa",
+    "subprocess",
+    "random",
+    "inspect",
+    "functools"
 ]
 
 templates_path = ['_templates']
@@ -37,6 +54,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+import sphinx_rtd_theme
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
@@ -62,3 +80,4 @@ html_theme_options = {
 napoleon_google_docstring = True
 napoleon_preprocess_types = True
 napoleon_numpy_docstring = False
+
