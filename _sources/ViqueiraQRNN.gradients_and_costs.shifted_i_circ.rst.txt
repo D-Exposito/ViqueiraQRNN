@@ -1,6 +1,0 @@
-ViqueiraQRNN.gradients\_and\_costs.shifted\_i\_circ
-===================================================
-
-.. currentmodule:: ViqueiraQRNN.gradients_and_costs
-
-.. autofunction:: shifted_i_circ

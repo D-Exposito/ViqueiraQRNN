@@ -22,7 +22,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="ViqueiraQRNN.ansatz.AnsatzQRNNError" href="ViqueiraQRNN.ansatz.AnsatzQRNNError.html" />
-    <link rel="prev" title="ViqueiraQRNN.ansatz.order_parameters" href="ViqueiraQRNN.ansatz.order_parameters.html" /> 
+    <link rel="prev" title="ViqueiraQRNN.ansatz.EMCZ3" href="ViqueiraQRNN.ansatz.EMCZ3.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -63,19 +63,8 @@
 <li class="toctree-l2 current"><a class="reference internal" href="ViqueiraQRNN.ansatz.html">ViqueiraQRNN.ansatz</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.EMCZ2.html">ViqueiraQRNN.ansatz.EMCZ2</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.EMCZ3.html">ViqueiraQRNN.ansatz.EMCZ3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.order_parameters.html">ViqueiraQRNN.ansatz.order_parameters</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">ViqueiraQRNN.ansatz.AnsatzQRNN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.AnsatzQRNNError.html">ViqueiraQRNN.ansatz.AnsatzQRNNError</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.html">ViqueiraQRNN.gradients_and_costs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.calc_observable.html">ViqueiraQRNN.gradients_and_costs.calc_observable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.perturbed_i_circ.html">ViqueiraQRNN.gradients_and_costs.perturbed_i_circ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.shifted_i_circ.html">ViqueiraQRNN.gradients_and_costs.shifted_i_circ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.CostFunction.html">ViqueiraQRNN.gradients_and_costs.CostFunction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.GradientMethod.html">ViqueiraQRNN.gradients_and_costs.GradientMethod</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.CostFunctionError.html">ViqueiraQRNN.gradients_and_costs.CostFunctionError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.GradientMethodError.html">ViqueiraQRNN.gradients_and_costs.GradientMethodError</a></li>
 </ul>
 </li>
 </ul>
@@ -112,39 +101,20 @@
 <h1>ViqueiraQRNN.ansatz.AnsatzQRNN<a class="headerlink" href="#viqueiraqrnn-ansatz-ansatzqrnn" title="Link to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="ViqueiraQRNN.ansatz.AnsatzQRNN">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ViqueiraQRNN.ansatz.</span></span><span class="sig-name descname"><span class="pre">AnsatzQRNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_encode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_evolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ansatz'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.AnsatzQRNN" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ViqueiraQRNN.ansatz.</span></span><span class="sig-name descname"><span class="pre">AnsatzQRNN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nM</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_encode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_evolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.AnsatzQRNN" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to define ansatzes with the QRNN structure. Conceptually these ansatzes are divided into the Encoding and the Evolution part.
-In our implementation both of these blocks are divided in two parts ‘’encoder + final_encoding’’ and ‘’evolver + final_evolution’’.
+In our implementation both of these blocks are divided in two parts ‘’encoder + final_encoder’’ and ‘’evolver + final_evolver’’.
 The reason is that the ‘’encoder’’ and the ‘’evolver’’ will be repeated ‘repeat_encode’ and ‘repeat_evolution’ times, respectively,
 without having to write it out explicitly.</p>
 <p>The full circuit can then be obtained using <code class="xref py py-meth docutils literal notranslate"><span class="pre">ViqueiraQRNN.ansatz.get_full_circuit()</span></code>.</p>
 </dd></dl>
 
-<section id="attributes">
-<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading"></a></h2>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">encoder</span></code></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evolver</span></code></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">final_encoding</span></code></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">final_evolution</span></code></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-</section>
 <section id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Link to this heading"></a></h2>
 <dl class="py method">
 <dt class="sig sig-object py" id="ViqueiraQRNN.ansatz.AnsatzQRNN.__init__">
-<span class="sig-prename descclassname"><span class="pre">AnsatzQRNN.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_encode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_evolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ansatz'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.AnsatzQRNN.__init__" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">AnsatzQRNN.</span></span><span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nM</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_encode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_evolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.AnsatzQRNN.__init__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -162,23 +132,23 @@ without having to write it out explicitly.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ViqueiraQRNN.ansatz.AnsatzQRNN.total_order_params">
-<span class="sig-prename descclassname"><span class="pre">AnsatzQRNN.</span></span><span class="sig-name descname"><span class="pre">total_order_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repeat</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.AnsatzQRNN.total_order_params" title="Link to this definition"></a></dt>
-<dd><p>Order the given parameters follwoing the way they appear on the circuit.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>repeat</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list[str]</span></code>) – list of names of parameters that stay the same on all the repeated encoding and evolution blocks</p></li>
-<li><p><strong>args</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict[float</span> <span class="pre">|</span> <span class="pre">int</span> <span class="pre">|</span> <span class="pre">list[float</span> <span class="pre">|</span> <span class="pre">int]]</span></code>) – name of the parameter with the associated new values to order</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>the full list of ordered parameters</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>total_ordered_params (list)</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="ViqueiraQRNN.ansatz.AnsatzQRNN.set_circuit_blocks">
+<span class="sig-prename descclassname"><span class="pre">AnsatzQRNN.</span></span><span class="sig-name descname"><span class="pre">set_circuit_blocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">encoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_encoder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_evolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.AnsatzQRNN.set_circuit_blocks" title="Link to this definition"></a></dt>
+<dd><p>Method for setting the functions that apply the gates for each of the blocks to <cite>self.full_ansatz</cite>.
+Using user defined functions allows adding parameters cleanly by using a iterator that traverses
+the variables - see EMCZ2 and EMCZ3 below. Syntax example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ansatz</span> <span class="o">=</span> <span class="n">AnsatzQRNN</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">encoder_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">variables</span><span class="p">(</span><span class="s1">&#39;x:&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nE</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_ansatz</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">param</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qubit</span> <span class="o">=</span> <span class="n">qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_ansatz</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">param</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="p">],</span> <span class="n">qubit</span> <span class="o">=</span> <span class="n">qubit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_ansatz</span><span class="o">.</span><span class="n">rz</span><span class="p">(</span><span class="n">param</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">qubit</span> <span class="o">=</span> <span class="n">qubit</span><span class="p">)</span>
+
+<span class="n">ansatz</span><span class="o">.</span><span class="n">set_circuit_blocks</span><span class="p">(</span><span class="n">encoder_func</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -188,7 +158,7 @@ without having to write it out explicitly.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="ViqueiraQRNN.ansatz.order_parameters.html" class="btn btn-neutral float-left" title="ViqueiraQRNN.ansatz.order_parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ViqueiraQRNN.ansatz.EMCZ3.html" class="btn btn-neutral float-left" title="ViqueiraQRNN.ansatz.EMCZ3" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ViqueiraQRNN.ansatz.AnsatzQRNNError.html" class="btn btn-neutral float-right" title="ViqueiraQRNN.ansatz.AnsatzQRNNError" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

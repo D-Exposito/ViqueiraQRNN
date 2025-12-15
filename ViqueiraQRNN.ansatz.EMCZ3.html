@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="ViqueiraQRNN.ansatz.order_parameters" href="ViqueiraQRNN.ansatz.order_parameters.html" />
+    <link rel="next" title="ViqueiraQRNN.ansatz.AnsatzQRNN" href="ViqueiraQRNN.ansatz.AnsatzQRNN.html" />
     <link rel="prev" title="ViqueiraQRNN.ansatz.EMCZ2" href="ViqueiraQRNN.ansatz.EMCZ2.html" /> 
 </head>
 
@@ -63,19 +63,8 @@
 <li class="toctree-l2 current"><a class="reference internal" href="ViqueiraQRNN.ansatz.html">ViqueiraQRNN.ansatz</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.EMCZ2.html">ViqueiraQRNN.ansatz.EMCZ2</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">ViqueiraQRNN.ansatz.EMCZ3</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.order_parameters.html">ViqueiraQRNN.ansatz.order_parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.AnsatzQRNN.html">ViqueiraQRNN.ansatz.AnsatzQRNN</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.ansatz.AnsatzQRNNError.html">ViqueiraQRNN.ansatz.AnsatzQRNNError</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.html">ViqueiraQRNN.gradients_and_costs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.calc_observable.html">ViqueiraQRNN.gradients_and_costs.calc_observable</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.perturbed_i_circ.html">ViqueiraQRNN.gradients_and_costs.perturbed_i_circ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.shifted_i_circ.html">ViqueiraQRNN.gradients_and_costs.shifted_i_circ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.CostFunction.html">ViqueiraQRNN.gradients_and_costs.CostFunction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.GradientMethod.html">ViqueiraQRNN.gradients_and_costs.GradientMethod</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.CostFunctionError.html">ViqueiraQRNN.gradients_and_costs.CostFunctionError</a></li>
-<li class="toctree-l3"><a class="reference internal" href="ViqueiraQRNN.gradients_and_costs.GradientMethodError.html">ViqueiraQRNN.gradients_and_costs.GradientMethodError</a></li>
 </ul>
 </li>
 </ul>
@@ -112,8 +101,9 @@
 <h1>ViqueiraQRNN.ansatz.EMCZ3<a class="headerlink" href="#viqueiraqrnn-ansatz-emcz3" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="ViqueiraQRNN.ansatz.EMCZ3">
-<span class="sig-prename descclassname"><span class="pre">ViqueiraQRNN.ansatz.</span></span><span class="sig-name descname"><span class="pre">EMCZ3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nE</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nM</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_encode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_evolution</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.EMCZ3" title="Link to this definition"></a></dt>
-<dd><p>Creates the ansatz for the EMCZ2 QRNN algorithm. A picture of the ansatz form: <a class="reference external" href="https://github.com/jdani98/qutims/blob/release/0.2/.images/quantum_ansatz_CZme3.png">https://github.com/jdani98/qutims/blob/release/0.2/.images/quantum_ansatz_CZme3.png</a></p>
+<span class="sig-prename descclassname"><span class="pre">ViqueiraQRNN.ansatz.</span></span><span class="sig-name descname"><span class="pre">EMCZ3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nE</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nM</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_encode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeat_evolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ViqueiraQRNN.ansatz.EMCZ3" title="Link to this definition"></a></dt>
+<dd><p>Creates the ansatz for the EMCZ2 QRNN algorithm.
+A picture of the ansatz: <a class="reference external" href="https://github.com/jdani98/qutims/blob/release/0.2/.images/quantum_ansatz_CZme3.png">https://github.com/jdani98/qutims/blob/release/0.2/.images/quantum_ansatz_CZme3.png</a></p>
 </dd></dl>
 
 </section>
@@ -123,7 +113,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="ViqueiraQRNN.ansatz.EMCZ2.html" class="btn btn-neutral float-left" title="ViqueiraQRNN.ansatz.EMCZ2" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="ViqueiraQRNN.ansatz.order_parameters.html" class="btn btn-neutral float-right" title="ViqueiraQRNN.ansatz.order_parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="ViqueiraQRNN.ansatz.AnsatzQRNN.html" class="btn btn-neutral float-right" title="ViqueiraQRNN.ansatz.AnsatzQRNN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

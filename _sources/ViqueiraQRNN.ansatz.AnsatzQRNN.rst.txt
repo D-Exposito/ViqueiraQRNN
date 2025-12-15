@@ -8,17 +8,6 @@ ViqueiraQRNN.ansatz.AnsatzQRNN
 
 
 
-Attributes
-~~~~~~~~~~
-
-.. autosummary::
-   :nosignatures:
-
-   ~AnsatzQRNN.encoder
-   ~AnsatzQRNN.evolver
-   ~AnsatzQRNN.final_encoding
-   ~AnsatzQRNN.final_evolution
-
 
 
 Methods
@@ -46,5 +35,5 @@ Methods
 
 .. automethod:: AnsatzQRNN.get_full_circuit
 
-.. automethod:: AnsatzQRNN.total_order_params
+.. automethod:: AnsatzQRNN.set_circuit_blocks
 

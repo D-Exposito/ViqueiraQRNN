@@ -1,6 +1,0 @@
-ViqueiraQRNN.ansatz.order\_parameters
-=====================================
-
-.. currentmodule:: ViqueiraQRNN.ansatz
-
-.. autofunction:: order_parameters

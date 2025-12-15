@@ -1,6 +1,0 @@
-ViqueiraQRNN.gradients\_and\_costs.GradientMethodError
-======================================================
-
-.. currentmodule:: ViqueiraQRNN.gradients_and_costs
-
-.. autoexception:: GradientMethodError
