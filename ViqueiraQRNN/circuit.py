@@ -10,17 +10,17 @@ Copyright (C) 2025  Daniel Expósito, José Daniel Viqueira
 import os, sys
 import math
 import numpy as np
-import matplotlib.pyplot as plt
-from typing import  Union, Any, Optional
+from typing import  Union, Any, Optional, Callable
 
 # path to access CUNQA
 sys.path.append(os.getenv("HOME"))
 
-from cunqa.circuit import CunqaCircuit
-from ViqueiraQRNN.ansatz import AnsatzQRNN, EMCZ2, EMCZ3
+from cunqa.circuit import CunqaCircuit 
+from cunqa.circuit.circuit import _generate_id
 from cunqa.logger import logger
 from cunqa.qpu import QPU
 from cunqa.qjob import QJob
+from ViqueiraQRNN.ansatz import AnsatzQRNN, EMCZ2, EMCZ3
 
 
 class CircuitQRNNError(Exception):
@@ -28,7 +28,7 @@ class CircuitQRNNError(Exception):
     pass
 
 class CircuitQRNN:
-    def __init__(self, nE: int, nM: int, nT: int, repeat_encode: int, repeat_evolution: int, ansatz: AnsatzQRNN, init_state_mem: CunqaCircuit = None):
+    def __init__(self, nE: int, nM: int, nT: int, repeat_encode: int, repeat_evolution: int, ansatz_generator: Callable[[int,int,int,int,int], AnsatzQRNN] = EMCZ2, init_state_mem: CunqaCircuit = None):
         """
         Class to manage a QRNN circuit. This circuit modifies a time series 
         to obtain another time series after executing. The default ansatz is the one from the 
@@ -40,7 +40,7 @@ class CircuitQRNN:
             nT (int): number of time steps of the time series
             repeat_encode (int): number of times that the encoding block should be repeated in the circuit
             repeat_evolution (int): number of times that the evolution block should be repeated in the circuit
-            ansatz (int): AnsatzQRNN instance to apply on each time step
+            ansatz (int): function that produces an AnsatzQRNN instance to apply on each time step (with value dependent on the time step)
             init_state_mem (<class CunqaCircuit>): initial state for the memory register
             
         Return:
@@ -52,80 +52,50 @@ class CircuitQRNN:
         self._repeat_encode = repeat_encode
         self._repeat_evolution = repeat_evolution
         
-        self.circuit = CunqaCircuit(nE + nM, nE*nT) # Number of cl_bits motivated by the measure of the Environment/Exchange register on each time_step
+        circuit_id = "CircuitQRNN_" + _generate_id()
+        self.circuit = CunqaCircuit(nE + nM, nE*nT, id = circuit_id) # Num of cl_bits to measure the Environment/Exchange register on each time_step
 
 
         # Determine which ansatz to use on the circuit
-        if ansatz == EMCZ2:
-            self.ansatz_object = EMCZ2(nE, nM, repeat_encode, repeat_evolution)
-            self.ansatz = self.ansatz_object.get_full_circuit()
-
-        elif (ansatz == "EMCZ3" or ansatz == EMCZ3):
-            self.ansatz_object = EMCZ3(nE, nM, repeat_encode, repeat_evolution)
-            self.ansatz = self.ansatz_object.get_full_circuit()
-
-        else:
-            if not all([ansatz.nE == self.nE, ansatz.nM == self.nM, ansatz._repeat_encode == self._repeat_encode, ansatz._repeat_evolution == self._repeat_evolution]):
-                logger.error(f"Provided ansatz has incorrect dimensions, nE: {ansatz.nE} vs {self.nE} (ansatz vs circuit), nM: {ansatz.nM} vs {self.nM}, repeat_encode: {ansatz._repeat_encode} vs {self._repeat_encode} and repeat_evolution: {ansatz._repeat_evolution} vs {self._repeat_evolution}.")
-                raise CircuitQRNNError
+        if (ansatz_generator == "EMCZ2" or ansatz_generator == EMCZ2):
+            setattr(self.__class__, 'ansatz_generator', EMCZ2)
             
-            self.ansatz_object = ansatz
-            self.ansatz = self.ansatz_object.get_full_circuit()
+        elif (ansatz_generator == "EMCZ3" or ansatz_generator == EMCZ3):
+            setattr(self.__class__, 'ansatz_generator', EMCZ3)
+            
+        else:
+            
+            setattr(self.__class__, 'ansatz_generator', ansatz_generator)
 
-
-        # If we have an intial state for the memory register, add it here
+        # Add intial state for the memory register - if applicable
         if init_state_mem is not None:
-            if init_state_mem.num_qubits == self.nM:
-
-                self.init_state_mem = init_state_mem
-                self.circuit += (CunqaCircuit(nE) | init_state_mem )
-
-            else:
+            if init_state_mem.num_qubits != self.nM:
                 logger.error(f"Initial state for the memory register has {init_state_mem.num_qubits} qubits while the memory register has {self.nM} qubits.")
                 raise CircuitQRNNError
 
-
+            self.init_state_mem = init_state_mem
+            self.circuit += (CunqaCircuit(nE) | init_state_mem )
 
         ##################### BUILD THE CIRCUIT ##########################
         for time_step in range(nT):
             try:
-                self.circuit += self.ansatz
+                ansatz_obj = ansatz_generator(nE, nM, repeat_encode, repeat_evolution, time_step)
+                self.circuit += ansatz_obj()
         
             except Exception as error:
                 logger.error(f"An error occurred while creating the circuit:\n {error}.")
                 raise CircuitQRNNError
 
             self.circuit.measure([i for i in range(nE)], [time_step*nE + i for i in range(nE)])
-            self.circuit.save_state(label=f"State_{time_step}") 
-            self.circuit.reset([i for i in range(nE)]) 
-    
-        
-    def assign_emcz_parameters(self, new_x: np.array, new_theta: np.array) -> list[Union[float, int]]:
+            self.circuit.save_state(label=f"State_{time_step+1}") 
+            self.circuit.reset([i for i in range(nE)])         
+
+    def bind_parameters(self, assign_dict: dict) -> None:
         """
-        Method for combining the data from the time series and the theta parameters to update the circuit.
-
-        Args:
-            theta (numpy.array): Trainable parameters for encoding and evolution unitaries. Vector lenght: 2nE*repeat_encode + 2(nE + nM)*repeat_evolution + nE.
-            x (numpy.array): Input data representing a time series. Its shape must be (nT, nE)
-
-        Return:
-            all_params (list[float, int]): parameters to insert on the circuit organized in the right order
+        Method to bind values to the Variable parameters of the underlying circuit.
+        Need only be used once, after submitting the circuit `QJob.upgrade_parameters()` can be used.
         """
-        if not new_x.shape() == (self.nT, self.nE):
-            logger.error(f"The time series provided doesn't have the correct shape. It should be {(self.nE, self.nT)} while it is {new_x.shape()}.")
-            raise CircuitQRNNError
-        
-        if not new_theta.shape() == (2*self.nE*self._repeat_encode + 2*(self.nE+self.nM)*self._repeat_evolution + self.nE):
-            logger.error(f"The theta provided doesn't have the correct lenght. It should be {2*self.nE*self._repeat_encode + 2*(self.nE+self.nM)*self._repeat_evolution + self.nE} while it is {new_theta.shape()}.")
-            raise CircuitQRNNError
-        
-        all_params = []
-        for t in self.nT:
-            all_params += self.ansatz_object.total_order_params(repeat=["x"], x=new_x[t, :], theta=new_theta)
-
-        self.circuit.assign_parameters(all_params)
-
-        
+        return self.circuit.assign_parameters(assign_dict)
 
     def run_on_QPU(self, qpu: QPU, **run_parameters: Any) -> QJob:
         """

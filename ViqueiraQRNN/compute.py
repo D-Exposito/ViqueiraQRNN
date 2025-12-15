@@ -1,6 +1,6 @@
 """
  Title: Gradients and Cost Functions
- Description: class implementing all gradient calculation methods + cost functions of interest
+ Description: class implementing all gradient calculation methods and cost functions of interest. All computations of the module are concentrated here.
 
 Created 15/07/2025
 @author: dexposito (algorithm idea: jdviqueira)
@@ -11,7 +11,6 @@ import os, sys
 import math
 import functools
 import numpy as np
-import matplotlib.pyplot as plt
 from typing import  Union, Any, Optional
 
 # path to access CUNQA
@@ -20,22 +19,26 @@ sys.path.append(os.getenv("HOME"))
 from ViqueiraQRNN.circuit import CircuitQRNN
 from cunqa.logger import logger
 from cunqa.qjob import QJob, gather
-from cunqa.qutils import getQPUs
+from cunqa.qutils import get_QPUs
+from cunqa.circuit.parameter import variables
 
 class CostFunctionError(Exception):
     """Exception for error during cost calculations."""
     pass
 
 class CostFunction:
-    """ Callable class that handles all cost functions for the EMCZ algorithm. """
+    """ 
+    Callable class that handles all cost functions for the QRNN model, which can be picked upon instantiation 
+    or initialize with deafault and update later with ~py:meth:`update_cost_function`. 
+    """
     def __init__(self, choose_function: str = "rmse"):
         
         self.choice_function = choose_function
 
         if choose_function == "rmse":
-            functools.update_wrapper(self, self.function)
             self.function = self.rmse
             self.deriv = self.rmse_deriv
+            functools.update_wrapper(self, self.function)
 
         # Add more cost functions as needed
 
@@ -45,19 +48,35 @@ class CostFunction:
 
     #################### COST FUNCTIONS ####################
 
-    def rmse(self, prediction, y_true):
+    def rmse(self, prediction: np.array, y_true: np.array) -> float:
         """
         Root mean squared error.
+
+        Args:
+            prediction (np.array): value predicted from a certain vector x that we want to compare with the actual result associated to x
+            y_true (np.array): actual result associated to x
+
+        Returns:
+            (float): the root mean squared error of prediction with respect to y_true
         """
         if len(prediction) != len(y_true):
             logger.error("Lenghts of predictions and the true labels do not match.")
             raise CostFunctionError
 
-        return math.sqrt(sum([(prediction[i] - y_true[i])**2 for i in range(len(y_true))])/len(y_true)) # if they are np.arrays the for can be eliminated
+        return math.sqrt(np.sum(np.power(prediction - y_true, 2))/len(y_true)) 
     
     #################### DERIVATIVES ####################
 
-    def rmse_deriv(self, prediction, y_true) -> np.array:
+    def rmse_deriv(self, prediction: np.array, y_true: np.array) -> np.array:
+        """
+        Derivative of the RMSE function with respect to each of its entries.
+
+        Args:
+            prediction (np.array): value where the gradient is evaluated
+            y_true (np.array): point where the gradient is computed, ie gradient of f(x) = sqrt(sum_over_i((x[i] - y_true[i])**2))
+        Returns:
+            (np.array): gradient of the RMSE function on the point y_true evaluated on prediction
+        """
         rmse = self.rmse(prediction, y_true)
 
         return 2*np.array([ prediction[i]-y_true[i] for i in range(len(y_true)) ])/(len(y_true)*2*rmse)
@@ -65,6 +84,12 @@ class CostFunction:
     #################### INTERFACE METHODS ####################
 
     def update_cost_function(self, new_cost_function):
+        """
+        Function to change the cost function to a new one.
+
+        Args:
+            new_cost_function (str): name of the new cost function to set. Must be one of the supported ones.
+        """
         logger.debug(f"Changing cost function from {self.choice_function} to {new_cost_function}")
         self.__init__(new_cost_function)
 
@@ -80,7 +105,10 @@ class GradientMethodError(Exception):
     pass
 
 class GradientMethod:
-    """ Callable class that handles all methods to calculate the gradient for the EMCZ algorithm. """
+    """ 
+    Callable class that handles all methods to calculate the gradient for the QRNN training, which can be picked upon instantiation 
+    or initialize with default and update later with ~py:meth:`update_gradient_method`. 
+    """
     
     def __init__(self, choose_method: str = "finite_differences"):
         """
@@ -88,8 +116,10 @@ class GradientMethod:
             choose_method (str): string describing the method that should be used. Default: finite_differences
         """
         self.choice_method = choose_method
-        self.qpus=getQPUs(local=False) 
+        self.qpus=get_QPUs(on_node=False) 
         self.n_qpus = len(self.qpus)
+
+        self.supported_methods = ["finite_differences", "parameter_shift_rule", "gradient_with_bias"]
 
         if choose_method in ["finite_differences", "fd"]:
             self.method = self.finite_differences
@@ -116,7 +146,12 @@ class GradientMethod:
         is stored in the attribute ``reference``.
         """
         self.circuit = circuit
-        self.circuit.assign_emcz_parameters(time_series, theta) # as we distribute shots of one circuit, one assignment will do
+        param_dict = {}
+        param_dict |= {var: x     for var, x     in zip(variables(f'x{circuit.nT}:{len(time_series)/circuit.nT}'), time_series)}
+        param_dict |= {var: theta for var, theta in zip(variables(f'theta:{len(theta)}'),                                theta)}
+
+        logger.debug(f"Assigning parameters in compute.init_evaluation: {param_dict}") 
+        self.circuit.bind_parameters(param_dict) # HARDCODED names for the params
 
         shots_per_qpu = shots // self.n_qpus
         remain = shots % self.n_qpus
@@ -155,7 +190,7 @@ class GradientMethod:
 
     #################### GRADIENTS ####################
 
-    def finite_differences(self, time_series: np.array, theta_now: np.array, y_true: np.array, cost_func: CostFunction, diff: Optional[float] = 1e-7, shots: int = 2000):
+    def finite_differences(self, circuit: CircuitQRNN, time_series: np.array, theta_now: np.array, y_true: np.array, cost_func: CostFunction, diff: Optional[float] = 1e-7, shots: int = 2000):
         """
         Finite differences method for calculating the gradient. It estimates the derivative on 
         each component of the gradient, parallelizing the calculation between QPUs.
@@ -176,7 +211,7 @@ class GradientMethod:
         n_qpus = len(self.qpus)
         gradient = np.array([0.0 for _ in range(n)])
         
-        # We go through the components of theta n_qjobs at a time 
+        # We go through the components of theta n_qpus at a time 
         for i in range(n // n_qpus):
 
             # Range of components for which we calculate the derivative on this loop iteration
@@ -184,8 +219,8 @@ class GradientMethod:
             end = (i+1)*n_qpus
 
             # Concurrent execution of circuits with small differences on one component
-            results = gather( [perturbed_i_circ(qjob, time_series, theta_now, start + self.qjobs.index(qjob), diff, shots=shots) for qjob in self.qjobs] )
-            observables = [[calc_observable(res, self.circuit.nE) for res in results]]
+            results = gather([perturbed_i_circ(qjob, time_series, theta_now, start + self.qjobs.index(qjob), diff, shots=shots, nT=circuit.nT) for qjob in self.qjobs])
+            observables = [calc_observable(res, self.circuit.nE) for res in results]
 
             deriv = [ np.dot( cost_func.deriv(obs, y_true), (obs - self.reference)/diff ) for obs in observables]
             gradient[start:end] = deriv
@@ -193,7 +228,7 @@ class GradientMethod:
 
         # Go through the last n % n_qjobs objects 
         final_start = n-(n % n_qpus)
-        final_results = gather( [perturbed_i_circ(self.qjobs[i], time_series, theta_now, final_start + i, diff, shots) for i in range(n % n_qpus)] )
+        final_results = gather([perturbed_i_circ(self.qjobs[i], time_series, theta_now, final_start + i, diff, shots, nT=circuit.nT) for i in range(n % n_qpus)])
 
         final_observables = [calc_observable(res, self.circuit.nE) for res in final_results]
         
@@ -231,7 +266,7 @@ class GradientMethod:
             end = (i+1)*n_qjobs
 
             # Concurrent execution of circuits with the parameter shifted +-pi/2 on one component
-            results = gather([shifted_i_circ(qjob, time_series, theta_now, start + qjobs.index(qjob), shots=shots) for qjob in qjobs])
+            results = gather([shifted_i_circ(qjob, time_series, theta_now, start + qjobs.index(qjob), shots=shots, nT=circuit.nT) for qjob in qjobs])
             observables = [calc_observable(res, circuit.nE) for res in results]
 
             deriv = [
@@ -243,7 +278,7 @@ class GradientMethod:
         
         # Last remaining n % n_qjobs components
         final_start = n-(n % n_qjobs)
-        final_results = gather( [shifted_i_circ(qjobs[i], time_series, theta_now, final_start + i, shots=shots) for i in range(n % n_qjobs)] )
+        final_results = gather([shifted_i_circ(qjobs[i], time_series, theta_now, final_start + i, shots=shots, nT=circuit.nT) for i in range(n % n_qjobs)])
         final_observables = [calc_observable(res, circuit.nE) for res in final_results]
 
         final_deriv = [ 
@@ -261,6 +296,12 @@ class GradientMethod:
     #################### INTERFACE METHODS ####################
 
     def update_gradient_method(self, new_gradient_method):
+        f"""
+        Function to change the gradient method to a new one. 
+
+        Args:
+            new_gradient_method (str): name of the new gradient method to set. Must be one of the supported ones: {self.supported_methods}.
+        """
         logger.debug(f"Changing gradient method from {self.choice_method} to {new_gradient_method}")
         self.__init__(new_gradient_method)
 
@@ -270,29 +311,50 @@ class GradientMethod:
 #################### AUXILIARY METHODS ####################
 
 def calc_observable(result, nE, observable = None) -> np.array:
+    """
+    Retrieves probabilities and calculates the chosen observable (only all Z's supported as of yet).
+
+    Args:
+        result (cunqa.result.Result class): property `result` of a qjob object
+        nE (int): number of qubits of the Exchange register
+        observable (None): not implemented yet
+    """
     # TODO: improve this method to a flexible one once we have an observable calculation pipeline
-    probs_dict = result.probabilities(per_qubit = True, partial = list(range(nE)), interface = False)
+    probs_dict = result.probabilities(per_qubit = True, partial = list(range(nE)))
     probs = np.concatenate(tuple([prob for prob in probs_dict.values()]))
 
     return np.array([prob_qubit[0]-prob_qubit[1] for prob_qubit in probs]) # ad hoc calculation of <Z> observable
 
     
 
-def perturbed_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: int, diff: float, shots: int) -> QJob:
+def perturbed_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: int, diff: float, shots: int, nT: int) -> QJob:
     """
     Creates jobs with the QRNN circuit with 'theta' modified by 'diff' on coordinate 'index'.
     """
     theta_aux = theta; theta_aux[index] += diff
-    return qjob.upgrade_parameters(shots=shots, x=time_series, theta=theta_aux)
 
-def shifted_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: int, shots: int)-> QJob:
+    param_dict = {}
+    param_dict |= {var: x     for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
+    param_dict |= {var: theta for var, theta in zip(variables(f'theta:{len(theta)}'),                theta)}
+    
+    return qjob.upgrade_parameters(param_dict, shots=shots) # HARDCODED names for the params
+
+def shifted_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: int, shots: int, nT: int)-> QJob:
     """
     Creates two jobs with the QRNN circuit with 'theta' modified by +pi/2 and -pi/2 on coordinate 'index'.
     """
     theta_plus = theta; theta_plus[index] += np.pi/2
     theta_minus = theta; theta_minus[index] -= np.pi/2
 
-    qjob_plus = qjob.upgrade_parameters(shots=shots, x=time_series, theta=theta_plus)
-    qjob_minus = qjob.upgrade_parameters(shots=shots, x=time_series, theta=theta_minus)
+    param_dict_plus = {}
+    param_dict_plus |= {var: x     for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
+    param_dict_plus |= {var: theta for var, theta in zip(variables(f'theta:{len(theta_plus)}'),      theta_plus)}
+    
+    param_dict_minus = {}
+    param_dict_minus |= {var: x     for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
+    param_dict_minus |= {var: theta for var, theta in zip(variables(f'theta:{len(theta_minus)}'),    theta_minus)}
+
+    qjob_plus = qjob.upgrade_parameters(param_dict_plus, shots=shots) # HARDCODED names for the params
+    qjob_minus = qjob.upgrade_parameters(param_dict_minus, shots=shots) # HARDCODED names for the params
     return qjob_plus, qjob_minus
 

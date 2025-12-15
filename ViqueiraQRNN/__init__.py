@@ -5,7 +5,7 @@ import sys, os
 sys.path.append(os.path.abspath(".."))
 
 from ViqueiraQRNN.circuit import CircuitQRNN
-from ViqueiraQRNN.gradients_and_costs import GradientMethod, CostFunction
+from ViqueiraQRNN.compute import GradientMethod, CostFunction
 from ViqueiraQRNN.model import ViqueiraQRNN
 from ViqueiraQRNN.ansatz import AnsatzQRNN, EMCZ2, EMCZ3
 
