@@ -1,0 +1,64 @@
+slurmstepd: info: Setting TMPDIR to /scratch/297236. Previous errors about TMPDIR can be discarded
+(12/16/25 10:27:45 AM) [QPU 297236_5] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_5] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_5] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_5] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_7] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_7] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_7] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_7] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_8] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_8] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_8] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_8] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_1] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:27:45 AM) [QPU 297236_1] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_1] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_1] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_3] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_3] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_3] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_3] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_5] debug: Server bound to tcp://10.5.7.8:38027  4ms
+(12/16/25 10:27:45 AM) [QPU 297236_5] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_8] debug: Server bound to tcp://10.5.7.8:43495  4ms
+(12/16/25 10:27:45 AM) [QPU 297236_8] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_9] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_9] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_9] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_9] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_1] debug: Server bound to tcp://10.5.7.8:45435  4ms
+(12/16/25 10:27:45 AM) [QPU 297236_1] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_7] debug: Server bound to tcp://10.5.7.8:44077  4ms
+(12/16/25 10:27:45 AM) [QPU 297236_7] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_4] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_4] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_4] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_4] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_0] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_0] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_0] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_0] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_6] debug: No backend_path nor noise_properties_path were provided.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_6] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_2] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:27:45 AM) [QPU 297236_2] debug: Raising QPU without communications.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_2] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_2] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_6] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_6] debug: Simulator instantiated  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_3] debug: Server bound to tcp://10.5.7.8:41837  4ms
+(12/16/25 10:27:45 AM) [QPU 297236_3] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_9] debug: Server bound to tcp://10.5.7.8:39361  8ms
+(12/16/25 10:27:45 AM) [QPU 297236_9] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_6] debug: Server bound to tcp://10.5.7.8:43667  14ms
+(12/16/25 10:27:45 AM) [QPU 297236_6] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_2] debug: Server bound to tcp://10.5.7.8:44941  14ms
+(12/16/25 10:27:45 AM) [QPU 297236_2] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_4] debug: Server bound to tcp://10.5.7.8:43403  14ms
+(12/16/25 10:27:45 AM) [QPU 297236_4] debug: QPU instantiated.  0ms
+(12/16/25 10:27:45 AM) [QPU 297236_0] debug: Server bound to tcp://10.5.7.8:36951  14ms
+(12/16/25 10:27:45 AM) [QPU 297236_0] debug: QPU instantiated.  0ms
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-c7-8: error: *** JOB 297236 ON c7-8 CANCELLED AT 2025-12-16T10:27:47 ***
+slurmstepd-c7-8: error: *** STEP 297236.0 ON c7-8 CANCELLED AT 2025-12-16T10:27:47 ***

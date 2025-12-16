@@ -1,0 +1,16 @@
+slurmstepd: info: Setting TMPDIR to /scratch/297761. Previous errors about TMPDIR can be discarded
+(12/16/25 12:08:48 PM) [QPU 297761_0] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 12:08:48 PM) [QPU 297761_0] debug: Raising QPU without communications.  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_0] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_0] debug: Simulator instantiated  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_1] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 12:08:48 PM) [QPU 297761_1] debug: Raising QPU without communications.  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_1] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_1] debug: Simulator instantiated  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_0] debug: Server bound to tcp://10.5.7.8:35281  8ms
+(12/16/25 12:08:48 PM) [QPU 297761_1] debug: Server bound to tcp://10.5.7.8:35711  8ms
+(12/16/25 12:08:48 PM) [QPU 297761_1] debug: QPU instantiated.  0ms
+(12/16/25 12:08:48 PM) [QPU 297761_0] debug: QPU instantiated.  0ms
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-c7-8: error: *** JOB 297761 ON c7-8 CANCELLED AT 2025-12-16T12:08:48 ***
+slurmstepd-c7-8: error: *** STEP 297761.0 ON c7-8 CANCELLED AT 2025-12-16T12:08:48 ***

@@ -1,0 +1,118 @@
+slurmstepd: info: Setting TMPDIR to /scratch/297227. Previous errors about TMPDIR can be discarded
+(12/16/25 10:21:51 AM) [QPU 297227_0] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_0] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_0] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_0] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_2] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_2] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_2] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_2] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_3] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_3] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_3] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_3] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_4] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_4] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_4] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_4] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_7] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_7] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_7] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_7] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_9] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_9] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_9] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_9] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_1] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_1] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_1] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_1] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_5] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_5] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_5] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_5] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_8] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_8] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_8] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_8] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_6] debug: No backend_path nor noise_properties_path were provided.  1ms
+(12/16/25 10:21:51 AM) [QPU 297227_6] debug: Raising QPU without communications.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_6] debug: QPU going to turn on with AerSimpleSimulator.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_6] debug: Simulator instantiated  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_6] debug: Server bound to tcp://10.5.7.7:39921  6ms
+(12/16/25 10:21:51 AM) [QPU 297227_6] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_9] debug: Server bound to tcp://10.5.7.7:36355  7ms
+(12/16/25 10:21:51 AM) [QPU 297227_9] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_5] debug: Server bound to tcp://10.5.7.7:41209  8ms
+(12/16/25 10:21:51 AM) [QPU 297227_5] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_4] debug: Server bound to tcp://10.5.7.7:37205  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_4] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_8] debug: Server bound to tcp://10.5.7.7:42251  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_1] debug: Server bound to tcp://10.5.7.7:38731  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_1] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_8] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_3] debug: Server bound to tcp://10.5.7.7:41155  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_3] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_2] debug: Server bound to tcp://10.5.7.7:36221  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_2] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_0] debug: Server bound to tcp://10.5.7.7:46257  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_0] debug: QPU instantiated.  0ms
+(12/16/25 10:21:51 AM) [QPU 297227_7] debug: Server bound to tcp://10.5.7.7:37979  9ms
+(12/16/25 10:21:51 AM) [QPU 297227_7] debug: QPU instantiated.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_0] error: Error sending result: Host unreachable  1161ms
+(12/16/25 10:21:52 AM) [QPU 297227_0] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_0] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_1] error: Error sending result: Host unreachable  1178ms
+(12/16/25 10:21:52 AM) [QPU 297227_1] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_1] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_2] error: Error sending result: Host unreachable  1196ms
+(12/16/25 10:21:52 AM) [QPU 297227_2] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_2] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_3] error: Error sending result: Host unreachable  1225ms
+(12/16/25 10:21:52 AM) [QPU 297227_3] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_3] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_5] error: Error sending result: Host unreachable  1268ms
+(12/16/25 10:21:52 AM) [QPU 297227_5] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_5] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_4] error: Error sending result: Host unreachable  1278ms
+(12/16/25 10:21:52 AM) [QPU 297227_4] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_4] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_6] error: Error sending result: Host unreachable  1293ms
+(12/16/25 10:21:52 AM) [QPU 297227_6] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_6] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_7] error: Error sending result: Host unreachable  1323ms
+(12/16/25 10:21:52 AM) [QPU 297227_7] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_7] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_8] error: Error sending result: Host unreachable  1337ms
+(12/16/25 10:21:52 AM) [QPU 297227_8] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_8] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_9] error: Error sending result: Host unreachable  1364ms
+(12/16/25 10:21:52 AM) [QPU 297227_9] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:52 AM) [QPU 297227_9] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_1] error: Error sending result: Host unreachable  539ms
+(12/16/25 10:21:53 AM) [QPU 297227_1] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_1] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_2] error: Error sending result: Host unreachable  533ms
+(12/16/25 10:21:53 AM) [QPU 297227_2] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_2] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_3] error: Error sending result: Host unreachable  539ms
+(12/16/25 10:21:53 AM) [QPU 297227_3] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_3] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_5] error: Error sending result: Host unreachable  540ms
+(12/16/25 10:21:53 AM) [QPU 297227_5] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_5] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_4] error: Error sending result: Host unreachable  533ms
+(12/16/25 10:21:53 AM) [QPU 297227_4] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_4] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_6] error: Error sending result: Host unreachable  533ms
+(12/16/25 10:21:53 AM) [QPU 297227_6] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_6] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_7] error: Error sending result: Host unreachable  539ms
+(12/16/25 10:21:53 AM) [QPU 297227_7] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_7] error: Message of the error: Host unreachable  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_8] error: Error sending result: Host unreachable  533ms
+(12/16/25 10:21:53 AM) [QPU 297227_8] error: There has happened an error sending the result, probably the client has had an error.  0ms
+(12/16/25 10:21:53 AM) [QPU 297227_8] error: Message of the error: Host unreachable  0ms
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd-c7-7: error: *** JOB 297227 ON c7-7 CANCELLED AT 2025-12-16T10:24:35 ***
+slurmstepd-c7-7: error: *** STEP 297227.0 ON c7-7 CANCELLED AT 2025-12-16T10:24:35 ***

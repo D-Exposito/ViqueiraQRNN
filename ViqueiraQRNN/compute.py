@@ -154,8 +154,8 @@ class GradientMethod:
         """
         self.circuit = circuit
         param_dict = {}
-        param_dict |= {var: x     for var, x     in zip(variables(f'x{circuit.nT}:{len(time_series)/circuit.nT}'), time_series)}
-        param_dict |= {var: theta for var, theta in zip(variables(f'theta:{len(theta)}'),                                theta)}
+        param_dict |= {var: x*np.pi     for var, x     in zip(variables(f'x{circuit.nT}:{len(time_series)/circuit.nT}'), time_series)}
+        param_dict |= {var: theta       for var, theta in zip(variables(f'theta:{len(theta)}'),                                theta)}
 
         logger.debug(f"Assigning parameters in compute.init_evaluation: {param_dict}") 
         self.circuit.bind_parameters(param_dict) # HARDCODED names for the params
@@ -267,19 +267,19 @@ class GradientMethod:
         logger.warning("Entered parameter shift rule calculation")
 
         n = len(theta_now)
-        n_qpus = len(self.qpus)
+        half_qpus = len(self.qjobs) // 2 # If num_QPUs is not even, a QPU will be wasted
         gradient = np.array([0.0 for _ in range(n)])
 
-        # We go through the components of theta n_qjobs at a time 
-        for i in range(n // n_qpus):
+        # We go through the components of theta in blocks of size n_qpus/2 
+        for i in range(n // half_qpus):
 
             # Range of components for which we calculate the derivative on this loop iteration
-            start = i*n_qpus
-            end = (i+1)*n_qpus
+            start = i*half_qpus
+            end = (i+1)*half_qpus
 
             # Concurrent execution of circuits with the parameter shifted +-pi/2 on one component
             # Consider using 2 QPUs on ech shift for optimal execution time
-            results = gather([plus_minus for qjob in self.qjobs for plus_minus in shifted_i_circ(qjob, time_series, theta_now, start + self.qjobs.index(qjob), shots=shots, nT=circuit.nT)])
+            results = gather([plus_minus for qjob_minus, qjob_plus in zip(self.qjobs[0::2], self.qjobs[1::2]) for plus_minus in shifted_i_circ(qjob_minus, qjob_plus, time_series, theta_now, start + self.qjobs[0::2].index(qjob_minus), shots=shots, nT=circuit.nT)])
             observables = [calc_observable(res, circuit.nE) for res in results]
 
             # TODO: fix this because it returns all zeros 
@@ -291,10 +291,10 @@ class GradientMethod:
             gradient[start:end] = deriv
         
         # Last remaining n % n_qjobs components
-        final_start = n-(n % n_qpus)
-        final_results = gather([plus_minus for i in range(n % n_qpus) for plus_minus in shifted_i_circ(self.qjobs[i], time_series, theta_now, final_start + i, shots=shots, nT=circuit.nT)])
+        final_start = n-(n % half_qpus)
+        final_results = gather([plus_minus for i in range(n % half_qpus) for plus_minus in shifted_i_circ(self.qjobs[i], self.qjobs[i+1], time_series, theta_now, final_start + i, shots=shots, nT=circuit.nT)])
         final_observables = [calc_observable(res, circuit.nE) for res in final_results]
-
+        print(f"results are {[res.counts for res in final_results]}\n")
         print(f"final_observables are {final_observables}")
         logger.warning(f"Even elements are {final_observables[0::2]}")
         logger.warning(f"Odd elements are {final_observables[1::2]}")
@@ -349,31 +349,32 @@ def perturbed_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: 
     """
     Creates jobs with the QRNN circuit with 'theta' modified by 'diff' on coordinate 'index'.
     """
-    theta_aux = copy.copy(theta); theta_aux[index] += diff 
+    theta_aux = np.copy(theta); theta_aux[index] += diff 
     logger.warning(f"Modified theta is {theta_aux}")
 
     param_dict = {}
-    param_dict |= {var: x     for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
-    param_dict |= {var: theta for var, theta in zip(variables(f'theta:{len(theta_aux)}'),        theta_aux)}
+    param_dict |= {var: x*np.pi for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
+    param_dict |= {var: theta   for var, theta in zip(variables(f'theta:{len(theta_aux)}'),        theta_aux)}
     
     return qjob.upgrade_parameters(param_dict, shots=shots) # HARDCODED names for the params
 
-def shifted_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: int, shots: int, nT: int)-> QJob:
+def shifted_i_circ(qjob_minus: QJob, qjob_plus: QJob, time_series: np.array, theta: np.array, index: int, shots: int, nT: int)-> QJob:
     """
     Creates two jobs with the QRNN circuit with 'theta' modified by +pi/2 and -pi/2 on coordinate 'index'.
     """
-    theta_plus = theta; theta_plus[index] += np.pi/2
-    theta_minus = theta; theta_minus[index] -= np.pi/2
+    theta_plus  = np.copy(theta); theta_plus[index] += np.pi/2
+    theta_minus = np.copy(theta); theta_minus[index] -= np.pi/2
 
     param_dict_plus = {}
-    param_dict_plus |= {var: x     for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
-    param_dict_plus |= {var: theta for var, theta in zip(variables(f'theta:{len(theta_plus)}'),      theta_plus)}
+    param_dict_plus |= (x_dict := {var: x*np.pi for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)})
+    param_dict_plus |= {var: theta   for var, theta in zip(variables(f'theta:{len(theta_plus)}'),      theta_plus)}
     
     param_dict_minus = {}
-    param_dict_minus |= {var: x     for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
-    param_dict_minus |= {var: theta for var, theta in zip(variables(f'theta:{len(theta_minus)}'),    theta_minus)}
+    param_dict_minus |= x_dict
+    param_dict_minus |= {var: theta   for var, theta in zip(variables(f'theta:{len(theta_minus)}'),    theta_minus)}
 
-    qjob_plus = qjob.upgrade_parameters(param_dict_plus, shots=shots) # HARDCODED names for the params
-    qjob_minus = qjob.upgrade_parameters(param_dict_minus, shots=shots) # HARDCODED names for the params
+    qjob_minus.upgrade_parameters(param_dict_plus, shots=shots) # HARDCODED names for the params
+    qjob_plus.upgrade_parameters(param_dict_minus, shots=shots) # HARDCODED names for the params
+
     return qjob_plus, qjob_minus
 
