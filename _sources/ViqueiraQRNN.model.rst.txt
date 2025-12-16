@@ -23,7 +23,7 @@
       :nosignatures:
       :recursive:
    
-      ViqueiraQRNN
+      ModelQRNN
    
    
 
