@@ -24,8 +24,9 @@ from cunqa.logger import logger
 from cunqa.qjob import QJob
 from cunqa.circuit import CunqaCircuit
 
+logfile = "" # Change for the actual file name
 
-class ViqueiraQRNN:
+class ModelQRNN:
     """
     Implementation using CUNQA of the QRNN Exchange-Memory with Controlled Z-gates model from the paper https://arxiv.org/abs/2310.20671 .
     """
@@ -34,7 +35,7 @@ class ViqueiraQRNN:
 
         # Run a bash script raising QPUs in six empty nodes (should amount to 192 QPUs). Command waits until jobs are finished configuring
         try:
-            command = 'source raise_QPUs_idle_nodes.sh'
+            command = 'source ./raise_QPUs_idle_nodes.sh'
             subprocess.run(command, shell=True, check=True, capture_output=True, text=True) 
 
         except subprocess.CalledProcessError as error:
@@ -47,23 +48,6 @@ class ViqueiraQRNN:
         self._trained = False
 
         self.circuit = CircuitQRNN(nE, nM, nT, repeat_encode, repeat_evolution, ansatz, init_state_mem)
-    
-
-    ########################## CIRCUIT CALCULATION METHODS #####################
-
-    # def bind_parameters(self, qjob: QJob, x: np.array, theta: np.array) -> QJob:
-    #     return qjob.upgrade_parameters(x=x, theta=theta)
-
-    # def calc_observable(self, qjob, observable = None) -> np.array:
-    #     # TODO: improve this method to a flexible one once we have an observable calculation pipeline
-    #     probs = qjob.result.probabilities(per_qubit = True, partial = list(range(self.nE)))
-
-    #     return np.array([prob_qubit[0]-prob_qubit[1] for prob_qubit in probs]) # ad hoc calculation of <Z> observable
-    
-    # def evaluate_circ(self, qjob, x, theta) -> np.array:
-    #     job = self.bind_parameters(qjob, x, theta)
-    #     obs_result = self.calc_observable(job)
-    #     return obs_result
 
     ########################## FIT, PREDICT AND VALIDATE MODEL #########################
 
@@ -92,7 +76,6 @@ class ViqueiraQRNN:
             theta_aux = theta_init
 
 
-        logfile = "" # Change for the actual file name
         with open(logfile, 'a') as f:
 
             for epoch in epochs:
