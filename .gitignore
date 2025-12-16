@@ -260,3 +260,4 @@ cachegrind*
 
 ############ CUSTOM IGNORES ################
 qraise_*
+output_results

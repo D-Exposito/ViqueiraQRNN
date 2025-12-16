@@ -184,8 +184,12 @@ class GradientMethod:
         remain = shots % self.n_qpus
         distr_shots = [shots_per_qpu + 1 for _ in range(remain)] + [shots_per_qpu for _ in range(self.n_qpus-remain)]
 
+        param_dict = {}
+        param_dict |= {var: x*np.pi     for var, x     in zip(variables(f'x{self.circuit.nT}:{len(time_series)/self.circuit.nT}'), time_series)}
+        param_dict |= {var: theta       for var, theta in zip(variables(f'theta:{len(theta)}'),                                theta)}
+
         for i, qjob in enumerate(self.qjobs):
-            qjob.upgrade_parameters(shots=distr_shots[i], x=time_series, theta=theta)
+            qjob.upgrade_parameters(param_dict, shots=distr_shots[i])
         
         results = gather(self.qjobs)
 
@@ -218,6 +222,8 @@ class GradientMethod:
         Return:
             gradient (np.array): array of lenght len(theta_now) with the estimated gradient of theta
         """
+        logger.debug("Entered finite differences calculation")
+
         n = len(theta_now)
         n_qpus = len(self.qpus)
         gradient = np.array([0.0 for _ in range(n)])
@@ -264,7 +270,7 @@ class GradientMethod:
         Return:
             gradient (np.array): array of lenght len(theta_now) with the estimated gradient of theta
         """
-        logger.warning("Entered parameter shift rule calculation")
+        logger.debug("Entered parameter shift rule calculation")
 
         n = len(theta_now)
         half_qpus = len(self.qjobs) // 2 # If num_QPUs is not even, a QPU will be wasted
@@ -278,31 +284,25 @@ class GradientMethod:
             end = (i+1)*half_qpus
 
             # Concurrent execution of circuits with the parameter shifted +-pi/2 on one component
-            # Consider using 2 QPUs on ech shift for optimal execution time
             results = gather([plus_minus for qjob_minus, qjob_plus in zip(self.qjobs[0::2], self.qjobs[1::2]) for plus_minus in shifted_i_circ(qjob_minus, qjob_plus, time_series, theta_now, start + self.qjobs[0::2].index(qjob_minus), shots=shots, nT=circuit.nT)])
             observables = [calc_observable(res, circuit.nE) for res in results]
 
-            # TODO: fix this because it returns all zeros 
             deriv = [
                 np.dot( (cost_func.deriv(plus, y_true) - cost_func.deriv(minus, y_true))/2, (plus - minus)/2 ) 
                 for plus, minus in zip(observables[0::2], observables[1::2])
             ] # zip goes through even and odd elements together
-        
             gradient[start:end] = deriv
         
         # Last remaining n % n_qjobs components
         final_start = n-(n % half_qpus)
         final_results = gather([plus_minus for i in range(n % half_qpus) for plus_minus in shifted_i_circ(self.qjobs[i], self.qjobs[i+1], time_series, theta_now, final_start + i, shots=shots, nT=circuit.nT)])
         final_observables = [calc_observable(res, circuit.nE) for res in final_results]
-        print(f"results are {[res.counts for res in final_results]}\n")
-        print(f"final_observables are {final_observables}")
-        logger.warning(f"Even elements are {final_observables[0::2]}")
-        logger.warning(f"Odd elements are {final_observables[1::2]}")
 
         final_deriv = [ 
             np.dot( (cost_func.deriv(plus, y_true) - cost_func.deriv(minus, y_true))/2, (plus - minus)/2 ) 
             for plus, minus in zip(final_observables[0::2], final_observables[1::2])
         ]
+    
         gradient[final_start:n] = final_deriv
 
         return np.array(gradient)
