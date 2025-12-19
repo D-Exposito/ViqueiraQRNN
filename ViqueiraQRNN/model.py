@@ -9,8 +9,11 @@ Copyright (C) 2025  Daniel Expósito, José Daniel Viqueira
 
 import os, sys
 import math
+import random
+import string
 import subprocess
 import numpy as np
+import pennylane as qml
 from typing import  Union, Any, Optional
 from random import randint
 
@@ -21,7 +24,6 @@ from ViqueiraQRNN.ansatz import AnsatzQRNN, EMCZ2
 from ViqueiraQRNN.circuit import CircuitQRNN
 from ViqueiraQRNN.compute import GradientMethod, CostFunction
 from cunqa.logger import logger
-from cunqa.qjob import QJob
 from cunqa.circuit import CunqaCircuit
 
 logfile = "output_results.txt" # Change for the actual file name
@@ -38,7 +40,7 @@ class ModelQRNN:
             # For instance, 6 nodes on QMIO should amount to 192 QPUs
             try:
                 current_dir = os.path.abspath(".")
-                command = f'source {current_dir}/raise_QPUs_idle_nodes.sh {num_nodes}'
+                command = f'source {current_dir}/raise_QPUs_idle_nodes.sh {num_nodes} {"01:00:00"}'
                 subprocess.run(command, shell=True, check=True, capture_output=True, text=True) 
 
             except subprocess.CalledProcessError as error:
@@ -71,6 +73,7 @@ class ModelQRNN:
 
         self.calc_gradient = GradientMethod(gradient_method) # By default finite_differences
         self.calc_cost     = CostFunction(cost_func)         # By default RMSE
+        self.optimizer     = qml.Adam(stepsize=0.001)        # It is possible to customize beta1 and beta2, we rely on the default   
 
         if theta_init is None:
             np.random.seed(18) # Set a seed for debugging
@@ -80,6 +83,11 @@ class ModelQRNN:
 
 
         with open(logfile, 'a') as f:
+            # Logging information to distinguish trainings
+            chars       = string.ascii_letters + string.digits; 
+            random_name = "QRNN_Training_"     + ''.join(random.choices(chars, k=6))  
+
+            logger.debug(f"Started {random_name}.");        f.write(f"BEGIN {random_name} \n")
 
             for epoch in range(epochs):
                 best_loss = float("Infinity") # Best loss will be inmediatly updated without writing a special case for i=0
@@ -88,7 +96,7 @@ class ModelQRNN:
                 for i, time_series in enumerate(population):
                     
                     gradient = self.calc_gradient(circuit=self.circuit, time_series=time_series, theta_now=theta_aux,  y_true=y_labels[i], cost_func=self.calc_cost, shots=shots)
-                    theta_aux += learn_rate * gradient
+                    self.optimizer.step(gradient, theta_aux) # Do theta_aux += learn_rate * gradient with variable learn_rate
                     
                     new_result = self.calc_gradient.distr_shots(time_series, theta_aux)          
                     loss_i = self.calc_cost(new_result, y_labels[i])
@@ -101,7 +109,7 @@ class ModelQRNN:
                 f.write(f"==> THETA after epoch {epoch:4d}:  {list(self.theta)} \n")
                 f.write(f"==> LOSS ({self.calc_cost.choice_function}) after epoch {epoch:4d}:  {loss_i:10.6f} \n")
             
-            f.write(f"\nFinalized fit\n -----------------------------------------------------------------------------------------------------------\n")
+            f.write(f"\nFinalized fit \n-----------------------------------------------------------------------------------------------------------\n")
 
         self._trained = True   
         logger.debug(f"Optimal theta found: {self.theta}.")

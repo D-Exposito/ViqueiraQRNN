@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# First argument selects how many nodes should be filled with QPUs
+# First argument selects how many nodes should be filled with QPUs, second argument specifies maximun QPU life
 NUM_NODES=$1;
+TIME=$2;
 
 # Extract the name of all idle nodes & select nodes between c7-4 and c7-22
 IDLE_NODES=$(sinfo -h -N -R -t idle | awk '{print $1}') 
@@ -13,7 +14,7 @@ shuffled_nodes=$(echo $filtered_nodes | awk 'BEGIN{srand()} {n=split($0,a); for(
 # Here we deploy QPUs in some nodes 
 counter=0
 for node in $shuffled_nodes; do
-    qraise -n 32 -t 01:00:00 --co-located --node_list $node --family_name=$node # --noise-prop="\path\to\file" or --fakeqmio
+    qraise -n 32 -t $TIME --co-located --node_list $node --family_name=$node # --noise-prop="\path\to\file" or --fakeqmio
 
     ((counter++))
     if [ $counter -eq $NUM_NODES ]; then
