@@ -154,7 +154,7 @@ class GradientMethod:
         """
         self.circuit = circuit
         param_dict = {}
-        param_dict |= {var: x*np.pi     for var, x     in zip(variables(f'x{circuit.nT}:{len(time_series)/circuit.nT}'), time_series)}
+        param_dict |= {var: x*np.pi     for var, x     in zip(variables(f'x:{circuit.nT}.(:{len(time_series)//circuit.nT})'), time_series)}
         param_dict |= {var: theta       for var, theta in zip(variables(f'theta:{len(theta)}'),                                theta)}
 
         logger.debug(f"Assigning parameters in compute.init_evaluation: {param_dict}") 
@@ -185,7 +185,7 @@ class GradientMethod:
         distr_shots = [shots_per_qpu + 1 for _ in range(remain)] + [shots_per_qpu for _ in range(self.n_qpus-remain)]
 
         param_dict = {}
-        param_dict |= {var: x*np.pi     for var, x     in zip(variables(f'x{self.circuit.nT}:{len(time_series)/self.circuit.nT}'), time_series)}
+        param_dict |= {var: x*np.pi     for var, x     in zip(variables(f'x:{self.circuit.nT}.(:{len(time_series)//self.circuit.nT})'), time_series)}
         param_dict |= {var: theta       for var, theta in zip(variables(f'theta:{len(theta)}'),                                theta)}
 
         for i, qjob in enumerate(self.qjobs):
@@ -353,7 +353,7 @@ def perturbed_i_circ(qjob: QJob, time_series: np.array, theta: np.array, index: 
     logger.warning(f"Modified theta is {theta_aux}")
 
     param_dict = {}
-    param_dict |= {var: x*np.pi for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)}
+    param_dict |= {var: x*np.pi for var, x     in zip(variables(f'x:{nT}.(:{len(time_series)//nT})'), time_series)}
     param_dict |= {var: theta   for var, theta in zip(variables(f'theta:{len(theta_aux)}'),        theta_aux)}
     
     return qjob.upgrade_parameters(param_dict, shots=shots) # HARDCODED names for the params
@@ -366,7 +366,7 @@ def shifted_i_circ(qjob_minus: QJob, qjob_plus: QJob, time_series: np.array, the
     theta_minus = np.copy(theta); theta_minus[index] -= np.pi/2
 
     param_dict_plus = {}
-    param_dict_plus |= (x_dict := {var: x*np.pi for var, x     in zip(variables(f'x{nT}:{len(time_series)/nT}'), time_series)})
+    param_dict_plus |= (x_dict := {var: x*np.pi for var, x     in zip(variables(f'x:{nT}.(:{len(time_series)//nT})'), time_series)})
     param_dict_plus |= {var: theta   for var, theta in zip(variables(f'theta:{len(theta_plus)}'),      theta_plus)}
     
     param_dict_minus = {}

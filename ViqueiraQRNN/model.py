@@ -31,18 +31,19 @@ class ModelQRNN:
     Implementation using CUNQA of the QRNN Exchange-Memory with Controlled Z-gates model from the paper https://arxiv.org/abs/2310.20671 .
     """
 
-    def __init__(self, nE: int, nM: int, nT: int, repeat_encode: int, repeat_evolution: int, ansatz: AnsatzQRNN = EMCZ2, init_state_mem: CunqaCircuit = None, num_nodes: int = 1):
+    def __init__(self, nE: int, nM: int, nT: int, repeat_encode: int, repeat_evolution: int, ansatz: AnsatzQRNN = EMCZ2, init_state_mem: CunqaCircuit = None, num_nodes: int = None):
+        
+        if num_nodes is not None:
+            # Run a bash script raising QPUs in empty nodes. Command waits until jobs are finished configuring
+            # For instance, 6 nodes on QMIO should amount to 192 QPUs
+            try:
+                current_dir = os.path.abspath(".")
+                command = f'source {current_dir}/raise_QPUs_idle_nodes.sh {num_nodes}'
+                subprocess.run(command, shell=True, check=True, capture_output=True, text=True) 
 
-        # Run a bash script raising QPUs in empty nodes. Command waits until jobs are finished configuring
-        # 6 nodes on QMIO should amount to 192 QPUs
-        try:
-            current_dir = os.path.abspath(".")
-            command = f'source {current_dir}/raise_QPUs_idle_nodes.sh {num_nodes}'
-            subprocess.run(command, shell=True, check=True, capture_output=True, text=True) 
-
-        except subprocess.CalledProcessError as error:
-            logger.error(f"Error while raising QPUs:\n {error.stderr}.")
-            raise SystemExit
+            except subprocess.CalledProcessError as error:
+                logger.error(f"Error while raising QPUs:\n {error.stderr}.")
+                raise SystemExit
 
         self.nE = nE;  self.repeat_encode    = repeat_encode
         self.nM = nM;  self.repeat_evolution = repeat_evolution
@@ -71,7 +72,7 @@ class ModelQRNN:
         self.calc_gradient = GradientMethod(gradient_method) # By default finite_differences
         self.calc_cost     = CostFunction(cost_func)         # By default RMSE
 
-        if theta_init == None:
+        if theta_init is None:
             np.random.seed(18) # Set a seed for debugging
             theta_aux = 2.*np.pi * np.random.random(2*self.nE*self.repeat_encode + 2*(self.nE + self.nM)*self.repeat_evolution + self.nE)
         else:
@@ -83,7 +84,7 @@ class ModelQRNN:
             for epoch in range(epochs):
                 best_loss = float("Infinity") # Best loss will be inmediatly updated without writing a special case for i=0
                 new_result = self.calc_gradient.init_evaluation(self.circuit, time_series=population[0], theta = theta_aux, shots = shots) # Initialize new result to be used as reference 
-                logger.warning("Before loop ")
+                logger.debug(f"First evaluation of epoch {epoch}")
                 for i, time_series in enumerate(population):
                     
                     gradient = self.calc_gradient(circuit=self.circuit, time_series=time_series, theta_now=theta_aux,  y_true=y_labels[i], cost_func=self.calc_cost, shots=shots)
@@ -97,7 +98,7 @@ class ModelQRNN:
                         self.theta = theta_aux 
 
 
-                f.write(f"==> THETA after epoch {epoch:4d}:  {self.theta:10.6f} \n")
+                f.write(f"==> THETA after epoch {epoch:4d}:  {list(self.theta)} \n")
                 f.write(f"==> LOSS ({self.calc_cost.choice_function}) after epoch {epoch:4d}:  {loss_i:10.6f} \n")
             
             f.write(f"\nFinalized fit\n -----------------------------------------------------------------------------------------------------------\n")

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Select how many node should be filled with QPUs
+# First argument selects how many nodes should be filled with QPUs
 NUM_NODES=$1;
 
 # Extract the name of all idle nodes & select nodes between c7-4 and c7-22
